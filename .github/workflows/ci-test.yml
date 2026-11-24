@@ -1,0 +1,46 @@
+# File path: .github/workflows/ci-test.yml
+
+# 1. NAME: The title of the workflow
+name: Continuous Integration Tests
+
+# 2. ON: The triggers that start the workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+# 3. JOBS: Grouping the work to be done
+jobs:
+  # This is your custom Job ID (no spaces allowed, use dashes/underscores)
+  quality-check:
+    # Tells GitHub what kind of virtual server to rent for this job
+    runs-on: ubuntu-latest
+
+    # 4. STEPS: The sequential checklist of tasks inside the 'quality-check' job
+    steps:
+      # STEP 1: Use a prebuilt GitHub Action to download our repo code onto this server
+      - name: checkout repo code
+        uses: actions/checkout@v4
+
+      # STEP 2: Run a single Linux shell command
+      - name: run python application
+        run: |
+          python3 app.py
+
+      # STEP 3: Run MULTIPLE Linux shell commands using the pipe (|) symbol
+      - name: inspect server worksplace
+        run: |
+          pwd
+          ls -al
+          echo "Hello from GitHub Actions!"
+          
+
+
+
+      
