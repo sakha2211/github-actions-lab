@@ -1,0 +1,75 @@
+# File path: .github/workflows/runners-demo.yml
+
+name: Multi-OS Runners Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # JOB 1: Spins up a fresh Ubuntu Linux server
+  linux-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Linux OS and pre-installed tools
+        run: |
+          echo "Running on Linux!"
+          uname -a
+          docker --version
+          aws --version
+
+  # JOB 2: Spins up a fresh Windows Server
+  windows-job:
+    runs-on: windows-latest
+    steps:
+      - name: Check Windows OS
+        run: |
+          echo "Running on Windows Server!"
+          systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
+
+  # JOB 3: Spins up a fresh Apple macOS server
+  mac-job:
+    runs-on: macos-latest
+    steps:
+      - name: Check macOS version
+        run: |
+          echo "Running on Apple macOS!"
+          sw_vers
+EOFcd ~/automation/github-actions-lab
+
+cat << 'EOF' > .github/workflows/runners-demo.yml
+# File path: .github/workflows/runners-demo.yml
+
+name: Multi-OS Runners Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # JOB 1: Spins up a fresh Ubuntu Linux server
+  linux-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Linux OS and pre-installed tools
+        run: |
+          echo "Running on Linux!"
+          uname -a
+          docker --version
+          aws --version
+
+  # JOB 2: Spins up a fresh Windows Server
+  windows-job:
+    runs-on: windows-latest
+    steps:
+      - name: Check Windows OS
+        run: |
+          echo "Running on Windows Server!"
+          systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
+
+  # JOB 3: Spins up a fresh Apple macOS server
+  mac-job:
+    runs-on: macos-latest
+    steps:
+      - name: Check macOS version
+        run: |
+          echo "Running on Apple macOS!"
+          sw_vers
