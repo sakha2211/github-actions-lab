@@ -1,0 +1,22 @@
+name: Server Health Check
+
+on:
+  # 2 spaces: Trigger #1
+  push:
+    branches:
+      - dev
+
+  # 2 spaces: Trigger #2 (lined up with 'push')
+  workflow_dispatch:
+
+jobs:
+  disk-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: available disk space
+        run: |
+          df -h
+          echo "Disk space check completed successfully!"
