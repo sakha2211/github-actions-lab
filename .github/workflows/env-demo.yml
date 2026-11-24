@@ -1,0 +1,48 @@
+# File path: .github/workflows/env-demo.yml
+
+name: Environment Variables Demo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# 1. WORKFLOW LEVEL ENV (Available to ALL jobs and ALL steps)
+env:
+  APP_NAME: cloud-portal
+  CLOUD_PROVIDER: AWS
+
+jobs:
+  env-test-job:
+    runs-on: ubuntu-latest
+
+    # 2. JOB LEVEL ENV (Available ONLY to steps inside 'env-test-job')
+    env:
+      ENVIRONMENT: staging
+
+    steps:
+      # Step 1 uses the Workflow and Job variables, plus its own Step variable
+      - name: Print all environment variables
+        # 3. STEP LEVEL ENV (Available ONLY inside this specific step)
+        env:
+          PORT: 8080
+        run: |
+          echo "App Name (Workflow level): $APP_NAME"
+          echo "Cloud (Workflow level): $CLOUD_PROVIDER"
+          echo "Environment (Job level): $ENVIRONMENT"
+          echo "Port (Step level): $PORT"
+
+      # Step 2 tries to print all of them again (Notice what happens to $PORT!)
+      - name: Check variable visibility in Step 2
+        run: |
+          echo "App Name is still here: $APP_NAME"
+          echo "Environment is still here: $ENVIRONMENT"
+          echo "Port is empty because it belonged only to Step 1: $PORT"
+
+      # Step 3 overrides the Workflow variable just for this step
+      - name: Override variable example
+        env:
+          CLOUD_PROVIDER: Google-Cloud
+        run: |
+          echo "For this step only, Cloud Provider is: $CLOUD_PROVIDER"
