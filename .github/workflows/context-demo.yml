@@ -1,0 +1,23 @@
+name: github context demo 
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  print-context-info:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print GitHub Context Information
+        run: |
+          echo "Who triggered this pipeline? ${{ github.actor }}"
+          echo "What is the unique Commit SHA? ${{ github.sha }}"
+          echo "What is the full branch ref? ${{ github.ref }}"
+          echo "What is the short branch name? ${{ github.ref_name }}"
+          echo "What OS is the runner using? ${{ runner.os }}"
