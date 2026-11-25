@@ -1,0 +1,26 @@
+# File path: .github/workflows/security-demo.yml
+
+name: Security Best Practices Demo
+
+on:
+  push:
+    branches:
+      - main
+
+# 1. LEAST PRIVILEGE: Give this workflow a "Read-Only" ID badge
+permissions:
+  contents: read
+
+jobs:
+  secure-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Checkout code
+        uses: actions/checkout@v4
+
+      - name: Step 2 - Generate and hide a dynamic secret
+        run: |
+          TEMP_PASS="TempToken98765"
+          echo "::add-mask::$TEMP_PASS"
+          echo "My generated token is: $TEMP_PASS"
