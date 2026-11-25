@@ -1,0 +1,29 @@
+name: Build Audit Report
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  COMPANY_NAME: CloudCorp
+
+jobs:
+  audit-job:
+    runs-on: ubuntu-latest
+
+    env:
+      DEPLOY_ENV: production
+    
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: run env and echo context info
+        run: |
+          echo "Company Name (Workflow level): $COMPANY_NAME"
+          echo "Deployment Environment (Job level): $DEPLOY_ENV"
+          echo "Triggered by: ${{ github.actor }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "Branch Ref: ${{ github.ref }}"
