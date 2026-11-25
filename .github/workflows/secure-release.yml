@@ -1,0 +1,31 @@
+name: Secure Production Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+
+permissions:
+  contents: read
+
+jobs:
+  release-job:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+      url: https://cloudcorp.com
+
+    steps:
+      - name: step 1 - checkout code
+        uses: actions/checkout@v4
+      
+      - name: step 2 - run secrets
+        env:
+          TARGET_SERVER: ${{ vars.DB_HOST }}
+          SECRET_KEY: ${{ secrets.DB_PASSWORD }}
+        run: |
+          echo "Connecting to database server: $TARGET_SERVER"
+          echo "Using secret password: $SECRET_KEY"

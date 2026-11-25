@@ -1,0 +1,30 @@
+# File path: .github/workflows/aws-oidc-template.yml
+
+name: AWS OIDC Cloud Login Template
+
+# Manual trigger only (since this is our reference template without a live AWS account)
+on:
+  workflow_dispatch:
+
+# STEP 1 OF OIDC: Allow GitHub to create the temporary OIDC ID card!
+permissions:
+  id-token: write   # <-- Mandatory for OIDC!
+  contents: read    # <-- Read-only access to our repo code
+
+jobs:
+  deploy-aws:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Checkout code
+        uses: actions/checkout@v4
+
+      # STEP 2 OF OIDC: Trade the GitHub OIDC card for a 1-hour AWS pass (NO PASSWORDS!)
+      - name: Step 2 - Log into AWS using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/GitHubActionsRole
+          aws-region: us-east-1
+
+      - name: Step 3 - Verify AWS connection
+        run: aws sts get-caller-identity
