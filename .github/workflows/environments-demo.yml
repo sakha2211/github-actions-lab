@@ -1,0 +1,26 @@
+# File path: .github/workflows/environments-demo.yml
+
+name: Environment Approval Demo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy-to-prod:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+      url: https://cloudcorp.com
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Deploy application to Production
+        run: |
+          echo "Approval granted! Deploying app to Live Production Server..."
+          echo "Website is now live at https://cloudcorp.com"
