@@ -1,25 +1,26 @@
+# File path: .github/workflows/cache-demo.yml
+
 name: Pipeline Speed Cache Demo
 
 on:
   push:
     branches:
       - main
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   fast-build:
     runs-on: ubuntu-latest
 
-  steps:
-    - name: checkout code
-      uses: actions/checkout@v3
+    steps:
+      - name: Step 1 - Checkout code
+        uses: actions/checkout@v4
 
-    - name: cahe node modules
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+      - name: Step 2 - Cache Python pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
 
-    - name: install dependencies
-      run: |
-        pip install -r requirements.txt
+      - name: Step 3 - Install dependencies
+        run: pip install -r requirements.txt
