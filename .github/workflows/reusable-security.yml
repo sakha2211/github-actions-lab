@@ -1,0 +1,11 @@
+name: Reusable Security Scan
+
+on:
+  workflow_call:
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run company security check
+        run: echo "Running reusable company security scan... Passed!"

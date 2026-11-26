@@ -1,0 +1,11 @@
+name: Main App Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  call-security-workflow:
+    uses: ./.github/workflows/reusable-security.yml
