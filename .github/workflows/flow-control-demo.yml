@@ -18,7 +18,7 @@ jobs:
           echo "Running tests... Everything passed!"
           exit 0
 
-            - name: Step 3 - Celebrate Success
+      - name: Step 3 - Celebrate Success
         if: success()
         run: |
           echo "GREEN LIGHT: All tests passed!"
