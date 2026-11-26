@@ -1,5 +1,3 @@
-# File path: .github/workflows/flow-control-demo.yml
-
 name: Flow Control and Conditions Demo
 
 on:
@@ -11,7 +9,6 @@ on:
 jobs:
   test-job:
     runs-on: ubuntu-latest
-
     steps:
       - name: Step 1 - Start tests
         run: echo "Starting application tests..."
@@ -23,24 +20,20 @@ jobs:
 
       - name: Step 3 - Celebrate Success
         if: success()
-        run: |
-        echo "GREEN LIGHT: All tests passed!"
+        run: echo "GREEN LIGHT: All tests passed!"
 
       - name: Step 4 - Send Emergency Alert on Failure
         if: failure()
-        run: |
-          echo "RED ALERT: A step crashed! Paging the DevOps team!"
+        run: echo "RED ALERT: A step crashed! Paging the DevOps team!"
 
       - name: Step 5 - Cleanup Temporary Files
         if: always()
-        run: |
-          echo "JANITOR: Cleaning up temporary files regardless of pass/fail."
+        run: echo "JANITOR: Cleaning up temporary files regardless of pass/fail."
 
   deploy-job:
     runs-on: ubuntu-latest
     needs: test-job
     if: success() && github.ref == 'refs/heads/main'
-
     steps:
       - name: Deploy after tests pass
         run: echo "Job 1 succeeded on main branch! Deploying now..."
