@@ -1,1 +1,6 @@
-print("Success! Your Python app is running inside the pipeline!")
+def add_numbers(a, b):
+    return a + b
+
+
+if __name__ == "__main__":
+    print(f"CloudCorp App Running! 2 + 3 = {add_numbers(2, 3)}")

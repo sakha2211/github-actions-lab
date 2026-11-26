@@ -1,0 +1,33 @@
+# File path: .github/workflows/production-cicd.yml
+
+name: Production End-to-End CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  # STAGE 1: Spellcheck (Lint) and Test the Code
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 - Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Step 2 - Cache pip dependencies for speed
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+
+      - name: Step 3 - Install linter and test tools
+        run: pip install -r requirements.txt
+
+      - name: Step 4 - Lint code (Spellcheck with flake8)
+        run: flake8 app.py
+
+      - name: Step 5 - Run automated unit tests (with pytest)
+        run: pytest test_app.py
