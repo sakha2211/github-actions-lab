@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  # JOB 1: Creates a file on Computer #1 and uploads it to GitHub
+  # JOB 1: Creates a file on Computer #1 and uploads it
   build-job:
     runs-on: ubuntu-latest
 
@@ -19,21 +19,18 @@ jobs:
           echo "App Version 1.0 - Built by ${{ github.actor }}" > release-package.txt
           cat release-package.txt
 
-      # Upload 'release-package.txt' as an Artifact named 'my-app-artifact'
       - name: Step 2 - Upload build file as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: my-app-artifact
           path: release-package.txt
 
-  # JOB 2: Boots up Computer #2, downloads the file from Job 1, and reads it!
+  # JOB 2: Boots up Computer #2 and downloads the file from Job 1
   deploy-job:
     runs-on: ubuntu-latest
-    # Tells Job 2 to WAIT until 'build-job' finishes first!
     needs: build-job
 
     steps:
-      # Download 'my-app-artifact' onto Computer #2
       - name: Step 1 - Download Artifact from Job 1
         uses: actions/download-artifact@v4
         with:

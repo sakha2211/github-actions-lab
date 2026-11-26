@@ -1,0 +1,43 @@
+name: Package and Verify Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  create-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache pip folder
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+
+      - name: Create version file
+        run: echo "v2.0.0" > version.txt
+
+      - name: Upload version artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-file
+          path: version.txt
+
+  verify-package:
+    runs-on: ubuntu-latest
+    needs: create-package
+
+    steps:
+      - name: Download version artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: version-file
+
+      - name: Print file contents
+        run: cat version.txt
